@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" href="fotos/favicon.png" type="image/png" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Boda de Uriel y Minelli</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                  url('fotos/fondo.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    h1, h2 {
+      opacity: 0;
+      animation: fadeSlideIn 1.2s ease-out forwards;
+      animation-delay: 0.5s;
+    }
+
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 4rem;
+      margin-bottom: 0.5rem;
+      color: #fff;
+      transition: transform 0.3s ease;
+    }
+
+    h2 {
+      font-weight: 300;
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      color: #f0f0f0;
+      transition: transform 0.3s ease;
+    }
+
+    h1:hover, h2:hover {
+      transform: scale(1.03);
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .nav a {
+      padding: 0.9rem 2rem;
+      border: 1px solid rgba(255,255,255,0.6);
+      border-radius: 30px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 500;
+      background-color: rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .nav a:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .submenu-wrapper {
+      position: relative;
+      margin-bottom: 1.5rem;
+      min-height: 80px;
+    }
+
+    .subnav, .video-options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8rem;
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      visibility: hidden;
+      position: absolute;
+      left: 0; right: 0;
+      transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s ease;
+    }
+
+    .subnav.show, .video-options.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      visibility: visible;
+    }
+
+    .subnav a, .video-options a {
+      padding: 0.5rem 1.2rem;
+      border-radius: 24px;
+      background-color: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255,255,255,0.4);
+      text-decoration: none;
+      color: #fff;
+      font-weight: 400;
+      transition: all 0.3s ease;
+    }
+
+    .subnav a:hover, .video-options a:hover {
+      background-color: rgba(255,255,255,0.15);
+    }
+
+    #contenidoDinamico {
+      position: relative;
+      min-height: 300px;
+    }
+
+    #videoPlayer {
+      margin-top: 2rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      pointer-events: none;
+      display: flex;
+      justify-content: center;
+    }
+
+    #videoPlayer.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    video {
+      width: 80%;
+      max-width: 900px;
+      border-radius: 8px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    #reelsGallery {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      z-index: 2;
+      background: rgba(0,0,0,0.4);
+      padding: 1.5rem;
+      border-radius: 12px;
+      width: 90%;
+    }
+
+    #reelsGallery.show {
+      display: flex;
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    #reelsGallery video {
+      width: 280px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    #fullscreenIndicator {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      padding: 0.6rem 1.2rem;
+      border-radius: 24px;
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.6);
+      z-index: 999;
+      animation: blink 4s infinite;
+      font-size: 0.95rem;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    #fullscreenIndicator.show {
+      opacity: 1;
+    }
+
+    #fullscreenIndicator span {
+      display: inline-block;
+      transition: opacity 0.4s ease;
+    }
+
+    #fullscreenIndicator span.fade-out {
+      opacity: 0;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Uriel & Minelli</h1>
+  <h2>Selecciona qué deseas ver</h2>
+
+  <div class="nav">
+    <a href="#" onclick="event.preventDefault(); toggleVideos()">Videos</a>
+    <a href="#" onclick="event.preventDefault(); toggleSubnav()">Galería de Fotos</a>
+    <a href="#" onclick="event.preventDefault(); showReels()">Reels para Redes</a>
+  </div>
+
+  <div class="submenu-wrapper">
+    <div id="videoOptions" class="video-options"></div>
+    <div id="subnav" class="subnav"></div>
+  </div>
+
+  <div id="contenidoDinamico">
+    <div id="videoPlayer">
+      <video id="videoElement" controls></video>
+    </div>
+
+    <div id="reelsGallery"></div>
+  </div>
+
+  <div id="fullscreenIndicator" class="show">
+    <span id="fullscreenText">F11 para pantalla completa</span>
+  </div>
+
+  <script>
+    // Aquí podemos agregar o quitar botones para la sección "VIDEOS" ejemplo: Si queremos agregar un video de Save the date, solo copiamos y pegamos una de las lineas en el lugar que le corresponde
+    // y modificamos la "ruta", solo que tenga coherencia con lo que entregamos en el USB
+
+    const videoOptionsHTML = ` 
+     <a href="#" onclick="event.preventDefault(); playVideo('videos/Save_the_date.mp4')">Save The Date</a> 
+      <a href="#" onclick="event.preventDefault(); playVideo('videos/completo.mp4')">Video Completo</a>
+      <a href="#" onclick="event.preventDefault(); playVideo('videos/highlight1.mp4')">Highlight 1</a>
+      <a href="#" onclick="event.preventDefault(); playVideo('videos/highlight2.mp4')">Highlight 2</a>
+      <a href="#" onclick="event.preventDefault(); playVideo('videos/podcast.mp4')">Podcast 1</a>
+      <a href="#" onclick="event.preventDefault(); playVideo('videos/podcast2.mp4')">Podcast 2</a>
+      <a href="#" onclick="event.preventDefault(); playVideo('videos/entrevistas.mp4')">Entrevistas</a>
+    `;
+
+    const subnavHTML = `
+      <a href="fotos/save_the_date/index.html">Save the Date</a>
+      <a href="fotos/arreglo/index.html">Arreglo</a>
+      <a href="fotos/rompe_hielo/index.html">Rompe Hielo</a>
+      <a href="fotos/ceremonia/index.html">Ceremonia</a>
+      <a href="fotos/fiesta/index.html">Fiesta</a>
+    `;
+
+    document.getElementById('videoOptions').innerHTML = videoOptionsHTML;
+    document.getElementById('subnav').innerHTML = subnavHTML;
+
+    function toggleVideos() {
+      document.getElementById('videoOptions').classList.toggle('show');
+      document.getElementById('subnav').classList.remove('show');
+      hideReels();
+      hideVideo();
+    }
+
+    function toggleSubnav() {
+      document.getElementById('subnav').classList.toggle('show');
+      document.getElementById('videoOptions').classList.remove('show');
+      hideReels();
+      hideVideo();
+    }
+
+    function playVideo(source) {
+      const video = document.getElementById('videoElement');
+      video.src = source;
+      document.getElementById('videoPlayer').classList.add('show');
+      hideReels();
+      document.getElementById('subnav').classList.remove('show');
+      video.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function showReels() { 
+      const reels = document.getElementById('reelsGallery');
+      const isVisible = reels.classList.contains('show');
+
+      document.getElementById('videoOptions').classList.remove('show');
+      document.getElementById('subnav').classList.remove('show');
+      hideVideo();
+
+      if (isVisible) {
+        hideReels();
+      } else {
+        reels.innerHTML = '';
+        for (let i = 1; i <= 11; i++) { // <--- Aquí defines cuántos reels se muestran
+          const vid = document.createElement('video');
+          vid.src = `videos/reels/reel${i}.mp4`;
+          vid.controls = true;
+          reels.appendChild(vid);
+        }
+        reels.classList.add('show');
+      }
+    }
+
+    function hideReels() {
+      const reels = document.getElementById('reelsGallery');
+      reels.classList.remove('show');
+      reels.innerHTML = '';
+    }
+
+    function hideVideo() {
+      const video = document.getElementById('videoElement');
+      video.pause();
+      document.getElementById('videoPlayer').classList.remove('show');
+    }
+
+    const fullscreenIndicator = document.getElementById('fullscreenIndicator');
+    const fullscreenText = document.getElementById('fullscreenText');
+    let hideTimeout;
+
+    function checkFullscreenState() {
+      const isFullscreen = window.innerHeight === screen.height && window.innerWidth === screen.width;
+      const newText = isFullscreen ? 'F11 para minimizar' : 'F11 para pantalla completa';
+
+      if (fullscreenText.textContent !== newText) {
+        fullscreenText.classList.add('fade-out');
+        setTimeout(() => {
+          fullscreenText.textContent = newText;
+          fullscreenText.classList.remove('fade-out');
+        }, 400);
+      }
+
+      fullscreenIndicator.classList.add('show');
+      clearTimeout(hideTimeout);
+      hideTimeout = setTimeout(() => {
+        fullscreenIndicator.classList.remove('show');
+      }, 5000);
+    }
+
+    window.addEventListener('load', checkFullscreenState);
+    window.addEventListener('resize', checkFullscreenState);
+  </script>
+</body>
+</html>
