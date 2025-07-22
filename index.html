@@ -299,12 +299,27 @@
         hideReels();
       } else {
         reels.innerHTML = '';
-        for (let i = 1; i <= 11; i++) { // <--- Aquí defines cuántos reels se muestran
-          const vid = document.createElement('video');
-          vid.src = `videos/reels/reel${i}.mp4`;
-          vid.controls = true;
-          reels.appendChild(vid);
-        }
+        const reelIDs = [
+  '1LQCDcnb2Nv0ThiFaH8MFEHcoDG9tqQpY', // Reel 1
+  '1NUKEKVr32sUGAuCKbAtuHNBlorguUnWQ', // Reel 2
+  '1uIqTOsJIFO9m8dDXWoZTar1OzFemc18w', //Reel 3
+  '1Mx1HROxza1MsKw75nSYg4JkKNU9YzgKc', //Reel 4
+  '1ko12UlVOUUJgimlhKcUsryDR3zAu9rwW', // Reel 5
+  // Agrega más IDs según los tengas
+];
+
+reelIDs.forEach(id => {
+  const iframe = document.createElement('iframe');
+  iframe.src = `https://drive.google.com/file/d/${id}/preview`;
+  iframe.width = "280";
+  iframe.height = "500";
+  iframe.allow = "autoplay";
+  iframe.allowFullscreen = true;
+  iframe.frameBorder = "0";
+  iframe.style.borderRadius = "8px";
+  iframe.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.5)";
+  reels.appendChild(iframe);
+});
         reels.classList.add('show');
       }
     }
