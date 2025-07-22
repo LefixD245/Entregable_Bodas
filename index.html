@@ -230,9 +230,7 @@
   </div>
 
   <div id="contenidoDinamico">
-    <div id="videoPlayer">
-      <video id="videoElement" controls></video>
-    </div>
+    <div id="videoContainer" style="margin-top: 2rem;"></div>
 
     <div id="reelsGallery"></div>
   </div>
@@ -348,6 +346,22 @@
 
     window.addEventListener('load', checkFullscreenState);
     window.addEventListener('resize', checkFullscreenState);
+function playVideoFromDrive(id) {
+  const container = document.getElementById('videoContainer');
+  container.innerHTML = `
+    <iframe 
+      src="https://drive.google.com/file/d/${id}/preview" 
+      width="80%" 
+      height="360" 
+      allow="autoplay" 
+      allowfullscreen 
+      frameborder="0"
+      style="max-width: 900px; border-radius: 8px; box-shadow: 0 6px 16px rgba(0,0,0,0.5);"
+    ></iframe>
+  `;
+  container.scrollIntoView({ behavior: 'smooth' });
+}
+
   </script>
 </body>
 </html>
