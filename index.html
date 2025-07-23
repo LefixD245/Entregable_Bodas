@@ -1,391 +1,367 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <link rel="icon" href="../../fotos/favicon.png" type="image/png" />
+  <link rel="icon" href="fotos/ favicon.png" type="image/png" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Galería - Fiesta</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <title>Boda de Uriel y Minelli</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
   <style>
     body {
+      margin: 0;
       font-family: 'Poppins', sans-serif;
-      background: url('../../fotos/arreglo/fondo.jpg') no-repeat center center fixed;
+      background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                  url('fotos/ Fondo.jpg') no-repeat center center fixed;
       background-size: cover;
       color: #fff;
       text-align: center;
       padding: 2rem;
-      overflow-x: hidden;
+    }
+
+    h1, h2 {
+      opacity: 0;
+      animation: fadeSlideIn 1.2s ease-out forwards;
+      animation-delay: 0.5s;
     }
 
     h1 {
-      margin-bottom: 2rem;
-      font-size: 2.5rem;
-      font-weight: 600;
+      font-family: 'Great Vibes', cursive;
+      font-size: 4rem;
+      margin-bottom: 0.5rem;
+      color: #fff;
+      transition: transform 0.3s ease;
     }
 
-     .section-title {
-    font-family: 'Great Vibes', cursive;
-    font-size: 3rem;
-    color: #fff;
-    margin: 3rem 0 2rem;
-    width: 100%;
-    text-align: center;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-  }
+    h2 {
+      font-weight: 300;
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      color: #f0f0f0;
+      transition: transform 0.3s ease;
+    }
 
-  .section-title::before,
-  .section-title::after {
-    content: "";
-    flex: 1;
-    height: 3px;
-    background: white;
-    opacity: 1;
-  }
+    h1:hover, h2:hover {
+      transform: scale(1.03);
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .nav {
-      margin-bottom: 2.5rem;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 1rem;
+      margin-bottom: 2rem;
     }
 
     .nav a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 160px;
-      height: 60px;
+      padding: 0.9rem 2rem;
+      border: 1px solid rgba(255,255,255,0.6);
+      border-radius: 30px;
       text-decoration: none;
-      background-color: rgba(30, 30, 30, 0.5);
-      color: white;
-      border: 1px solid white;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 1rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      color: #fff;
+      font-weight: 500;
+      background-color: rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
     }
 
     .nav a:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+      background-color: rgba(255, 255, 255, 0.15);
     }
 
-    .gallery {
+    .submenu-wrapper {
+      position: relative;
+      margin-bottom: 1.5rem;
+      min-height: 80px;
+    }
+
+    .subnav, .video-options {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
+      gap: 0.8rem;
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      visibility: hidden;
+      position: absolute;
+      left: 0; right: 0;
+      transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s ease;
+    }
+
+    .subnav.show, .video-options.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      visibility: visible;
+    }
+
+    .subnav a, .video-options a {
+      padding: 0.5rem 1.2rem;
+      border-radius: 24px;
+      background-color: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255,255,255,0.4);
+      text-decoration: none;
+      color: #fff;
+      font-weight: 400;
+      transition: all 0.3s ease;
+    }
+
+    .subnav a:hover, .video-options a:hover {
+      background-color: rgba(255,255,255,0.15);
+    }
+
+    #contenidoDinamico {
+      position: relative;
+      min-height: 300px;
+    }
+
+    #videoPlayer {
+      margin-top: 2rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      pointer-events: none;
+      display: flex;
+      justify-content: center;
+    }
+
+    #videoPlayer.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    video {
+      width: 80%;
+      max-width: 900px;
+      border-radius: 8px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    #reelsGallery {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 1rem;
-    }
-
-    .gallery img {
-      width: 250px;
-      height: 170px;
-      object-fit: cover;
-      object-position: center;
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      z-index: 2;
+      background: rgba(0,0,0,0.4);
+      padding: 1.5rem;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
-      transition: transform 0.3s ease;
-      cursor: pointer;
+      width: 90%;
     }
 
-    .gallery img:hover {
-      transform: scale(1.05);
+    #reelsGallery.show {
+      display: flex;
+      opacity: 1;
+      transform: translate(-50%, 0);
     }
 
-    .back-button {
+    #reelsGallery video {
+      width: 280px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    #fullscreenIndicator {
       position: fixed;
       bottom: 20px;
-      right: 20px;
-      background-color: rgba(30, 30, 30, 0.5);
-      color: white;
-      padding: 0.7rem 1.2rem;
-      border: 1px solid white;
-      border-radius: 10px;
-      font-weight: bold;
-      text-decoration: none;
-      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
-      transition: background 0.3s ease, transform 0.3s ease, opacity 0.5s ease;
-      z-index: 10;
-    }
-
-    .back-button:hover {
-      background-color: rgba(255, 255, 255, 0.15);
-      transform: translateY(-2px);
-    }
-
-    #lightbox {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: rgba(0, 0, 0, 0.8);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-      flex-direction: column;
-      padding: 2rem;
-    }
-
-    #lightbox.visible {
-      display: flex;
-    }
-
-    #lightbox-content img {
-      max-width: 90vw;
-      max-height: 80vh;
-      border-radius: 12px;
-      transition: transform 0.3s ease;
-    }
-
-    .counter {
-      margin-top: 1rem;
-      font-size: 1.1rem;
-      color: white;
-    }
-
-    .hint {
-      font-size: 0.9rem;
-      color: #ccc;
-      margin-top: 0.4rem;
-    }
-
-    .close-btn, .arrow-btn {
-      position: fixed;
-      width: 40px;
-      height: 40px;
-      font-size: 20px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      border: none;
-      cursor: pointer;
-      z-index: 20;
+      left: 20px;
+      padding: 0.6rem 1.2rem;
+      border-radius: 24px;
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.6);
+      z-index: 999;
+      animation: blink 4s infinite;
+      font-size: 0.95rem;
       opacity: 0;
-      transition: opacity 0.4s ease, transform 0.2s ease;
+      transition: opacity 0.5s ease;
     }
 
-    .close-btn {
-      top: 20px;
-      right: 20px;
+    #fullscreenIndicator.show {
+      opacity: 1;
     }
 
-    .arrow-btn {
-      top: 50%;
-      transform: translateY(-50%);
+    #fullscreenIndicator span {
+      display: inline-block;
+      transition: opacity 0.4s ease;
     }
 
-    #prevBtn { left: 20px; }
-    #nextBtn { right: 20px; }
-
-    .arrow-btn:hover, .close-btn:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: scale(1.1);
+    #fullscreenIndicator span.fade-out {
+      opacity: 0;
     }
 
-    .fade-in { opacity: 1 !important; }
-    .fade-out { opacity: 0 !important; }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
   </style>
 </head>
 <body>
-  <h1>Arreglo</h1>
+  <h1>Uriel & Minelli</h1>
+  <h2>Selecciona qué deseas ver</h2>
+
   <div class="nav">
-    <a href="../save_the_date/index.html">Save the Date</a>
-    <a href="../arreglo/index.html">Arreglo</a>
-    <a href="../rompe_hielo/index.html">Rompe Hielo</a>
-    <a href="../ceremonia/index.html">Ceremonia</a>
-    <a href="../fiesta/index.html">Fiesta</a>
+    <a href="#" onclick="event.preventDefault(); toggleVideos()">Videos</a>
+    <a href="#" onclick="event.preventDefault(); toggleSubnav()">Galería de Fotos</a>
+    <a href="#" onclick="event.preventDefault(); showReels()">Reels para Redes</a>
   </div>
 
-  <div class="gallery" id="galleryContainer"></div>
+  <div class="submenu-wrapper">
+    <div id="videoOptions" class="video-options"></div>
+    <div id="subnav" class="subnav"></div>
+  </div>
 
-  <a class="back-button" id="backBtn" href="../../MENU_BODA.html">← Volver al Inicio</a>
+  <div id="contenidoDinamico">
+    <div id="videoContainer" style="margin-top: 2rem;"></div>
 
-  <div id="lightbox">
-    <div id="lightbox-content">
-      <img id="lightbox-img" src="" alt="Imagen ampliada">
-    </div>
-    <div class="counter" id="imageCounter"></div>
-    <div class="hint" id="scrollHint">Desliza hacia abajo para cargar más fotos</div>
-    <button class="close-btn" id="closeBtn" onclick="closeLightbox()">✕</button>
-    <button class="arrow-btn" id="prevBtn" onclick="navigate(-1)">←</button>
-    <button class="arrow-btn" id="nextBtn" onclick="navigate(1)">→</button>
+    <div id="reelsGallery"></div>
+  </div>
+
+  <div id="fullscreenIndicator" class="show">
+    <span id="fullscreenText">F11 para pantalla completa</span>
   </div>
 
   <script>
-    const galleryContainer = document.getElementById('galleryContainer');
-    const totalFotos = 125;
-    const batchSize = 40;
-    let currentLoaded = 0;
-    let subtitleInsertedMinelli = false;
-    let subtitleInsertedUriel = false;
+    // Aquí podemos agregar o quitar botones para la sección "VIDEOS" ejemplo: Si queremos agregar un video de Save the date, solo copiamos y pegamos una de las lineas en el lugar que le corresponde
+    // y modificamos la "ruta", solo que tenga coherencia con lo que entregamos en el USB
 
-    function loadNextBatch() {
-      const fragment = document.createDocumentFragment();
+ const videoOptionsHTML = 
+  <a href="#" onclick="event.preventDefault(); playVideoFromDrive('166PuMjqdRs90Wm7cGY8CSBfq7fojoFal')">Save The Date</a> 
+  <a href="#" onclick="event.preventDefault(); playVideoFromDrive('13MX8t-vo3oInShuOBaPG-2hYLU6YDpzQ')">Video Completo</a>
+  <a href="#" onclick="event.preventDefault(); playVideoFromDrive('1FYq_REvBQRdWLBap-kal4QY1f7QmxC6z')">Highlight 1</a>
+  <a href="#" onclick="event.preventDefault(); playVideoFromDrive('1NsSG6oJQILmO_7UisdQ4wp2bG4OGxz6S')">Highlight 2</a>
+  <a href="#" onclick="event.preventDefault(); playVideoFromDrive('1bm5oX_sbWv-MP1de9QWLkmaLZPVDsNu0')">Podcast 1</a>
+  <a href="#" onclick="event.preventDefault(); playVideoFromDrive('1athtcbpI4lk8xLjtR44_dsK3Ep38Ig6r')">Podcast 2</a>
+  <a href="#" onclick="event.preventDefault(); playVideoFromDrive('10F55On2E5K95f59Fp3fV0FRlEEtqnfOl')">Entrevistas</a>
+;
 
-      for (let i = 1; i <= batchSize && currentLoaded < totalFotos; i++, currentLoaded++) {
-        const padded = (currentLoaded + 1).toString().padStart(3, '0');
+    const subnavHTML = 
+      <a href="fotos/save_the_date/index.html">Save the Date</a>
+      <a href="fotos/arreglo/index.html">Arreglo</a>
+      <a href="fotos/rompe_hielo/index.html">Rompe Hielo</a>
+      <a href="fotos/ceremonia/index.html">Ceremonia</a>
+      <a href="fotos/fiesta/index.html">Fiesta</a>
+    ;
 
-        if (!subtitleInsertedMinelli && currentLoaded === 0) {
-          const title = document.createElement('div');
-          title.className = 'section-title';
-          title.textContent = 'Minelli';
-          fragment.appendChild(title);
-          subtitleInsertedMinelli = true;
-        }
+    document.getElementById('videoOptions').innerHTML = videoOptionsHTML;
+    document.getElementById('subnav').innerHTML = subnavHTML;
 
-        if (!subtitleInsertedUriel && currentLoaded === 61) { //Camnbiar este numero al de la foto donde incie el arreglo del novio
-          const title = document.createElement('div');
-          title.className = 'section-title';
-          title.textContent = 'Uriel';
-          fragment.appendChild(title);
-          subtitleInsertedUriel = true;
-        }
-
-        const img = document.createElement('img');
-        img.src = `foto${padded}.jpg`;
-        img.alt = `Foto ${currentLoaded + 1}`;
-        img.loading = 'lazy';
-        img.style.willChange = 'transform';
-        const indexForLightbox = currentLoaded;
-        img.addEventListener('click', () => showLightbox(indexForLightbox));
-        fragment.appendChild(img);
-      }
-
-      galleryContainer.appendChild(fragment);
-
-      if (currentLoaded >= totalFotos) {
-        const hint = document.getElementById('scrollHint');
-        if (hint) hint.style.display = 'none';
-      }
+    function toggleVideos() {
+      document.getElementById('videoOptions').classList.toggle('show');
+      document.getElementById('subnav').classList.remove('show');
+      hideReels();
+      hideVideo();
     }
 
-    loadNextBatch();
-
-    window.addEventListener('scroll', () => {
-      const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-      if (scrollTop + clientHeight >= scrollHeight - 300) {
-        loadNextBatch();
-      }
-    });
-
-    function getGalleryImages() {
-      return document.querySelectorAll('.gallery img');
+    function toggleSubnav() {
+      document.getElementById('subnav').classList.toggle('show');
+      document.getElementById('videoOptions').classList.remove('show');
+      hideReels();
+      hideVideo();
     }
 
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const closeBtn = document.getElementById('closeBtn');
-    const backBtn = document.getElementById('backBtn');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const counter = document.getElementById('imageCounter');
-
-    let currentIndex = -1;
-    let isZoomed = false;
-    let isDragging = false;
-    let startX, startY, offsetX = 0, offsetY = 0;
-
-    function showLightbox(index) {
-      currentIndex = index;
-      updateLightbox();
-      lightbox.classList.add('visible');
-
-      backBtn.classList.add('fade-out');
-      backBtn.classList.remove('fade-in');
-
-      [closeBtn, prevBtn, nextBtn].forEach(btn => {
-        btn.classList.remove('fade-out');
-        btn.classList.add('fade-in');
-      });
-
-      document.body.style.overflow = 'hidden';
+    function playVideo(source) {
+      const video = document.getElementById('videoElement');
+      video.src = source;
+      document.getElementById('videoPlayer').classList.add('show');
+      hideReels();
+      document.getElementById('subnav').classList.remove('show');
+      video.scrollIntoView({ behavior: 'smooth' });
     }
 
-    function updateLightbox() {
-      const src = getGalleryImages()[currentIndex].src;
-      lightboxImg.src = src;
-      counter.textContent = `${currentIndex + 1} / ${totalFotos}`;
-      resetZoom();
-    }
+    function showReels() { 
+      const reels = document.getElementById('reelsGallery');
+      const isVisible = reels.classList.contains('show');
 
-    function closeLightbox() {
-      lightbox.classList.remove('visible');
+      document.getElementById('videoOptions').classList.remove('show');
+      document.getElementById('subnav').classList.remove('show');
+      hideVideo();
 
-      backBtn.classList.remove('fade-out');
-      backBtn.classList.add('fade-in');
-
-      [closeBtn, prevBtn, nextBtn].forEach(btn => {
-        btn.classList.remove('fade-in');
-        btn.classList.add('fade-out');
-      });
-
-      document.body.style.overflow = '';
-      resetZoom();
-    }
-
-    function navigate(dir) {
-      const total = getGalleryImages().length;
-      currentIndex = (currentIndex + dir + total) % total;
-      updateLightbox();
-    }
-
-    function resetZoom() {
-      isZoomed = false;
-      offsetX = 0;
-      offsetY = 0;
-      lightboxImg.style.transform = '';
-      lightboxImg.style.cursor = 'default';
-    }
-
-    lightboxImg.addEventListener('dblclick', () => {
-      isZoomed = !isZoomed;
-      if (isZoomed) {
-        lightboxImg.style.transform = `scale(1.7) translate(${offsetX}px, ${offsetY}px)`;
-        lightboxImg.style.cursor = 'grab';
+      if (isVisible) {
+        hideReels();
       } else {
-        resetZoom();
+        reels.innerHTML = '';
+        for (let i = 1; i <= 11; i++) { // <--- Aquí defines cuántos reels se muestran
+          const vid = document.createElement('video');
+          vid.src = videos/reels/reel${i}.mp4;
+          vid.controls = true;
+          reels.appendChild(vid);
+        }
+        reels.classList.add('show');
       }
-    });
+    }
 
-    lightboxImg.addEventListener('mousedown', (e) => {
-      if (!isZoomed) return;
-      e.preventDefault();
-      isDragging = true;
-      startX = e.clientX - offsetX;
-      startY = e.clientY - offsetY;
-      lightboxImg.style.cursor = 'grabbing';
-    });
+    function hideReels() {
+      const reels = document.getElementById('reelsGallery');
+      reels.classList.remove('show');
+      reels.innerHTML = '';
+    }
 
-    window.addEventListener('mousemove', (e) => {
-      if (!isDragging || !isZoomed) return;
-      offsetX = e.clientX - startX;
-      offsetY = e.clientY - startY;
-      lightboxImg.style.transform = `scale(1.7) translate(${offsetX}px, ${offsetY}px)`;
-    });
+    function hideVideo() {
+      const video = document.getElementById('videoElement');
+      video.pause();
+      document.getElementById('videoPlayer').classList.remove('show');
+    }
 
-    window.addEventListener('mouseup', () => {
-      if (!isZoomed) return;
-      isDragging = false;
-      lightboxImg.style.cursor = 'grab';
-    });
+    const fullscreenIndicator = document.getElementById('fullscreenIndicator');
+    const fullscreenText = document.getElementById('fullscreenText');
+    let hideTimeout;
 
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) closeLightbox();
-    });
+    function checkFullscreenState() {
+      const isFullscreen = window.innerHeight === screen.height && window.innerWidth === screen.width;
+      const newText = isFullscreen ? 'F11 para minimizar' : 'F11 para pantalla completa';
 
-    document.addEventListener('keydown', (e) => {
-      if (!lightbox.classList.contains('visible')) return;
-      if (e.key === 'ArrowRight') navigate(1);
-      if (e.key === 'ArrowLeft') navigate(-1);
-      if (e.key === 'Escape') closeLightbox();
-    });
+      if (fullscreenText.textContent !== newText) {
+        fullscreenText.classList.add('fade-out');
+        setTimeout(() => {
+          fullscreenText.textContent = newText;
+          fullscreenText.classList.remove('fade-out');
+        }, 400);
+      }
+
+      fullscreenIndicator.classList.add('show');
+      clearTimeout(hideTimeout);
+      hideTimeout = setTimeout(() => {
+        fullscreenIndicator.classList.remove('show');
+      }, 5000);
+    }
+
+    window.addEventListener('load', checkFullscreenState);
+    window.addEventListener('resize', checkFullscreenState);
+function playVideoFromDrive(id) {
+  const container = document.getElementById('videoContainer');
+  container.innerHTML = 
+    <iframe 
+      src="https://drive.google.com/file/d/${id}/preview" 
+      width="80%" 
+      height="360" 
+      allow="autoplay" 
+      allowfullscreen 
+      frameborder="0"
+      style="max-width: 900px; border-radius: 8px; box-shadow: 0 6px 16px rgba(0,0,0,0.5);"
+    ></iframe>
+  ;
+  container.scrollIntoView({ behavior: 'smooth' });
+}
+
   </script>
 </body>
 </html>
